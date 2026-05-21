@@ -9,15 +9,6 @@ when an update is bad.
 
 License: MIT
 
-GitHub description:
-
-```text
-Production-safe updater for MaxMind DB files with verification, smoke tests, atomic swaps, rollback, and Prometheus metrics.
-```
-
-GitHub topics: `mmdb`, `maxmind`, `geoip`, `database-updater`,
-`production-agent`, `atomic-swap`, `rollback`, `prometheus`, `systemd`,
-`docker`, `kubernetes`, `observability`, `sigstore`, `cosign`, `mtls`.
 
 ## Why
 
