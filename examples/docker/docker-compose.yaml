@@ -1,0 +1,11 @@
+services:
+  mmdbwatch:
+    image: mmdb-watchtower:latest
+    command: ["run", "--config", "/etc/mmdbwatch.yaml"]
+    volumes:
+      - /etc/mmdbwatch.yaml:/etc/mmdbwatch.yaml:ro
+      - /var/lib/mmdb:/var/lib/mmdb
+    ports:
+      - "127.0.0.1:9417:9417"
+      - "127.0.0.1:9418:9418"
+    restart: unless-stopped

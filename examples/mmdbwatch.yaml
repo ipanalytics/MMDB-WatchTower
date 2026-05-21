@@ -1,0 +1,55 @@
+databases:
+  - name: geo
+    channel: stable
+    channels:
+      stable:
+        url: https://example.com/mmdb/geo/stable.mmdb.gz
+        sha256_url: https://example.com/mmdb/geo/stable.sha256
+        signature_url: https://example.com/mmdb/geo/stable.mmdb.sig
+        cosign_key: /etc/mmdbwatch/cosign.pub
+      canary:
+        url: https://example.com/mmdb/geo/canary.mmdb.gz
+      latest:
+        url: https://example.com/mmdb/geo/latest.mmdb.gz
+    path: /var/lib/mmdb/geo.mmdb
+    interval: 6h
+    min_size_mb: 20
+    max_size_mb: 500
+    tls:
+      client_cert: /etc/mmdbwatch/client.crt
+      client_key: /etc/mmdbwatch/client.key
+      ca_cert: /etc/mmdbwatch/ca.crt
+    required_fields:
+      - location.country_code
+      - location.city_geoname_id
+      - confidence
+    smoke_tests:
+      - ip: 8.8.8.8
+        expect:
+          location.country_code: US
+
+  - name: vpn
+    url: https://example.com/mmdb/vpn/latest.mmdb
+    path: /var/lib/mmdb/vpn.mmdb
+    interval: 1h
+    min_size_mb: 5
+    required_fields:
+      - privacy.is_vpn
+      - confidence
+    smoke_tests:
+      - ip: 91.196.220.30
+        expect:
+          privacy.is_vpn: true
+
+reload:
+  command: systemctl reload my-ip-api
+  timeout: 10s
+
+retention:
+  keep_versions: 5
+
+metrics:
+  listen: 127.0.0.1:9417
+
+readiness:
+  listen: 127.0.0.1:9418

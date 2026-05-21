@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ip-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ip-api
+  template:
+    metadata:
+      labels:
+        app: ip-api
+    spec:
+      volumes:
+        - name: mmdb
+          emptyDir: {}
+        - name: mmdbwatch-config
+          configMap:
+            name: mmdbwatch
+      containers:
+        - name: app
+          image: ghcr.io/example/ip-api:latest
+          volumeMounts:
+            - name: mmdb
+              mountPath: /data/mmdb
+        - name: mmdbwatch
+          image: mmdb-watchtower:latest
+          args: ["run", "--config", "/etc/mmdbwatch.yaml", "--channel", "stable"]
+          ports:
+            - name: metrics
+              containerPort: 9417
+            - name: readiness
+              containerPort: 9418
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: readiness
+          volumeMounts:
+            - name: mmdb
+              mountPath: /data/mmdb
+            - name: mmdbwatch-config
+              mountPath: /etc/mmdbwatch.yaml
+              subPath: mmdbwatch.yaml

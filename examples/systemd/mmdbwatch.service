@@ -1,0 +1,12 @@
+[Unit]
+Description=MMDB Watchtower
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/mmdbwatch run --config /etc/mmdbwatch.yaml
+Restart=always
+User=mmdbwatch
+Group=mmdbwatch
+
+[Install]
+WantedBy=multi-user.target
