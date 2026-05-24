@@ -18,6 +18,7 @@ import (
 	"mmdb-watchtower/internal/mmdbcheck"
 	"mmdb-watchtower/internal/runner"
 	"mmdb-watchtower/internal/state"
+	"mmdb-watchtower/internal/version"
 )
 
 const defaultConfig = "/etc/mmdbwatch.yaml"
@@ -33,8 +34,9 @@ func rootCmd() *cobra.Command {
 	var cfgPath string
 	var channel string
 	cmd := &cobra.Command{
-		Use:   "mmdbwatch",
-		Short: "Production-safe updater for MaxMind DB files",
+		Use:     "mmdbwatch",
+		Short:   "Production-safe updater for MaxMind DB files",
+		Version: fmt.Sprintf("%s commit=%s date=%s", version.Version, version.Commit, version.Date),
 	}
 	cmd.PersistentFlags().StringVarP(&cfgPath, "config", "c", defaultConfig, "config file path")
 	cmd.PersistentFlags().StringVar(&channel, "channel", "", "update channel override: stable, canary, latest")
