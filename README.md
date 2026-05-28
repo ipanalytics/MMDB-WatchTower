@@ -7,6 +7,10 @@ local `.mmdb` databases. It downloads new database releases, verifies integrity,
 runs smoke checks, swaps files atomically, reloads your service, and rolls back
 when an update is bad.
 
+<p align="center">
+  <img src="./site/banner.png" alt="MMDB Watchtower" width="100%">
+</p>
+
 License: MIT
 
 
